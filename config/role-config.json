@@ -1,0 +1,22 @@
+{
+  "manager": {
+    "model": "sonnet",
+    "api_key": "default",
+    "enabled": false
+  },
+  "developer": {
+    "model": "sonnet",
+    "api_key": "default",
+    "enabled": false
+  },
+  "clerk": {
+    "model": "haiku",
+    "api_key": "default",
+    "enabled": false
+  },
+  "security_gateway": {
+    "model": "haiku",
+    "api_key": "default",
+    "enabled": true
+  }
+}
