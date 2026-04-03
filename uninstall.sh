@@ -1,36 +1,30 @@
 #!/bin/bash
-# Multi-Role Team Workflow 一键卸载脚本
-# 完全卸载该技能，清除所有安装痕迹
-
 set -e
 
-# 定义路径，和安装脚本保持一致
-SKILLS_DIR="$HOME/.openclaw/skills"
-MY_SKILL_NAME="multi-role-team-workflow"
-MY_SKILL_DIR="$SKILLS_DIR/$MY_SKILL_NAME"
+echo "正在卸载多角色团队工作流技能..."
 
-echo "========================================"
-echo "  Multi-Role Team Workflow 卸载程序"
-echo "========================================"
+# 检测 openclaw 目录
+detect_openclaw() {
+  if [ -d "./openclaw" ]; then
+    OPENCLAW_SKILLS_DIR="./openclaw/skills"
+  elif [ -d "~/openclaw" ]; then
+    OPENCLAW_SKILLS_DIR="~/openclaw/skills"
+  elif [ -d "/opt/openclaw" ]; then
+    OPENCLAW_SKILLS_DIR="/opt/openclaw/skills"
+  else
+    OPENCLAW_SKILLS_DIR="~/.openclaw/skills"
+  fi
+}
 
-# 检查技能目录是否存在
-if [ ! -d "$MY_SKILL_DIR" ]; then
-    echo "✅ 未检测到已安装的Multi-Role Team Workflow技能，无需卸载"
-    exit 0
-fi
+detect_openclaw
 
-# 确认卸载
-read -p "⚠️ 即将删除所有该技能的文件，是否确认卸载？(y/N) " confirm
-if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-    echo "❌ 已取消卸载"
-    exit 0
-fi
+# 删除主技能
+rm -rf "$OPENCLAW_SKILLS_DIR/multi-role-team-workflow"
 
-# 删除技能目录
-echo "🗑️  正在删除技能文件..."
-rm -rf "$MY_SKILL_DIR"
+# 删除角色技能
+for role in manager developer clerk security_gateway; do
+  # 只删除用户没有修改的内置角色，如果是用户自己加的同名的，不删？不对，用户的角色是在本地的，所以全局的角色是安装的时候复制的，所以卸载的时候删除全局的
+  rm -rf "$OPENCLAW_SKILLS_DIR/$role"
+done
 
-echo ""
-echo "🎉 卸载完成！"
-echo "✅ 已完全清除Multi-Role Team Workflow技能的所有安装痕迹，无残留。"
-echo "注意：依赖的Superpowers技能未被删除，如果你还有其他技能使用它，可以保留。"
+echo "✅ 卸载完成！"

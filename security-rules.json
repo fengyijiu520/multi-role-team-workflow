@@ -1,0 +1,11 @@
+{
+  "forbidden_patterns": [
+    { "pattern": "password\\s*=\\s*['\"][^'\"]+['\"]", "message": "发现硬编码密码", "severity": "critical" },
+    { "pattern": "api_key\\s*=\\s*['\"][^'\"]+['\"]", "message": "发现硬编码 API 密钥", "severity": "critical" },
+    { "pattern": "secret\\s*=\\s*['\"][^'\"]+['\"]", "message": "发现疑似机密信息", "severity": "high" },
+    { "pattern": "eval\\(", "message": "使用了 eval()", "severity": "high" }
+  ],
+  "dangerous_imports": ["child_process", "fs/promises", "vm", "http", "net"],
+  "max_file_size_kb": 100,
+  "allowed_extensions": [".js", ".ts", ".json", ".md", ".txt", ".yaml", ".yml"]
+}
